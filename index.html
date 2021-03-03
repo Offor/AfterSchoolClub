@@ -47,39 +47,6 @@
             
             
         </div>
-
-         <script type="text/javascript">
-             var webstore = new Vue({
-                 el: '#App',  
-                 data: {
-                     sitename: 'Vue.js Web App',
-                     product: {
-                         id: 001,
-                         subject: "Mahths",
-                         location: "London",
-                         price: "$100",
-                         spaces: 5,
-                         image: "https://via.placeholder.com/150"
-                     },
-                     cart: []
-                 },  
-                 methods: {
-                     addToCart: function() {
-                         this.cart.push(this.product.id);
-                        }
-                    },
-                 computed: {
-                     cartItemCount: function() {
-                         return this.cart.length || '';
-                     },
-
-                     canAddToCart: function() {
-                         return this.product.spaces > this.cartItemCount;
-                     }
-
-
-                   }
-                });
-        </script> 
+        <script type="text/javascript" src="products.js"></script>
     </body>
 </html>
