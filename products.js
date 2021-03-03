@@ -8,8 +8,7 @@ var webstore = new Vue({
             location: "London",
             price: "$100",
             spaces: 5,
-            //image: "https://via.placeholder.com/300"
-            image: "images/maths.jpg"
+            image: "maths.jpg"
         },
         
         cart: [],
