@@ -1,7 +1,7 @@
 var webstore = new Vue({
     el: '#App',  
     data: {
-        sitename: 'Vue.js Web App',
+        sitename: 'After School Club',
         product: {
             id: 001,
             subject: "Maths",
