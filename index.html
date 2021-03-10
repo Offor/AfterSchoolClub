@@ -6,37 +6,52 @@
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <link rel="stylesheet" href="https:cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="main.css">
+        <!-- <script src="products.js"></script> -->
     </head>
     <body>
         <div id="App">
             <header class="navbar">
                 <h1 class="sitename">{{sitename}}</h1>
                 <div class="btn_checkout">
-                    <button v-on:click='showCheckout' class="btn_check">
+                    <button v-on:click="showCheckout" class="btn_check">
                      <sup> {{cartItemCount}} </sup>
                     <span class="fas fa-cart-plus"></span> &nbsp;Cart
                     </button>  
                 </div>
             </header>
             <main>
+                <div class="sort-bar">
+                    <select name="sortBy" class="select" v-model="sortBy" >
+                        <option value="location">Location</option>
+                        <option value="subject">Subject</option>
+                        
+                        <option value="price">Price</option>
+                        <option value="availability">availability</option>
+                    </select>
+                    <button v-on:click="ascending = !ascending" class="sort_button">
+                        <i v-if="ascending" class="fa fa-sort-up"></i>
+                        <i v-else class="fa fa-sort-down"></i> Sort
+                    </button>
+                    <button @click="sortedSubject">man</button>
+                </div>
                 <div class="product">
-                    <div class="col">
+                    <div class="col" v-for="product in sortedProducts">
                         <figure class="image_box">
                             <img v-bind:src="product.image">
                         </figure>
-                        <div class="info">
+                        <div class="info" >
                             <h3>{{product.subject}}</h3>
                              <p>Location: {{product.location}}</p>
                           <p>Price: {{product.price}}</p>
                           <p>Space: 
-                             <span v-if="product.spaces - cartItemCount >= 0">
-                                 {{product.spaces - cartItemCount}}
-                            </span>
+                                <span v-if="product.spaces - cartCount(product.id) >= 0">
+                                    {{product.spaces - cartCount(product.id) }}
+                                </span>
                            
                             </p>
                             
-                            <button class="btn_add" v-on:click="addToCart" v-if="canAddToCart">Add to Cart</button>
-                             <button class="btn_add_disabled" disabled='disabled' v-else>Add to cart</button>
+                            <button class="btn_add" v-on:click='addToCart(product)'  v-if="canAddToCart(product)">Add to Cart</button>
+                            <button class="btn_add_disabled" disabled='disabled' v-else>Add to cart</button>
 
                         </div>
                         
@@ -46,6 +61,9 @@
             </main>    
             
         </div>
-        <script type="text/javascript" src="products.js"></script>
+        <script type="text/javascript" src="products.js"></script> 
+        <!-- <script type="text/javascript">
+             -->
+        </script>
     </body>
 </html>

@@ -18,7 +18,7 @@ body {
   }
 
   h3 {
-    font-size: 50px;
+    font-size: 30px;
     line-height: 50px;
     padding-top: 10px;
   }
@@ -58,7 +58,10 @@ body {
 
   .info {
     float:left;
-    padding-top: 70px;
+    padding-top: 20px;
+    clear: right;
+    padding-bottom: 100px;
+   
    
     
   }
@@ -66,19 +69,20 @@ body {
   figure {
     float: left;
     margin-right: 20px;
-    height: 300;
-    width: 300;
+    
     
   }
 
-  .image_box {
-    height: 300;
-    width: 300;
+  /* .image_box {
+    height: 150;
+    width: 150;
     background-color: #606C54;
-  }
+  } */
 
   img {
     clip: rect(0px,60px,200px,0px);
+    height: 200px;
+    width: 200px;
   }
 
   .btn_add {
