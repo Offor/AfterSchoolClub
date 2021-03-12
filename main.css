@@ -107,6 +107,12 @@ body {
     font-size: 16px;
   }
 
+  .cartButton_disabled {
+    background-color: #606C54;
+    border: none;
+    color: #606C54;
+  }
+
   .alert {
     color: red;
     font-size: 10px;
