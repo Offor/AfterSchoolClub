@@ -2,37 +2,39 @@
 <html>
     <head>
         <title>After School Club</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="https://unpkg.com/vue"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <link rel="stylesheet" href="https:cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
         <link rel="stylesheet" href="main.css">
-        <!-- <script src="products.js"></script> -->
+        <!-- <script type="text/javascript" src="functions.js"></script>  -->
+        
     </head>
     <body>
         <div id="App">
+
+            <!--Nav bar, cart item-->
             <header class="navbar">
                 <h1 class="sitename">{{sitename}}</h1>
                 <div class="btn_checkout">
-                    <button  v-if="cartItemCount >= 1" class="btn_check">
-                    </span><sup> {{cartItemCount}} </sup> Cart
-                    <span class="fas fa-cart-plus"></span> &nbsp;
-                       </button>
-
-                     <button v-else class="cartButton_disabled">
-                        <span class="fas fa-cart-plus"> disables
-                    </button> 
+                    <button  v-if="cartItemCount >= 1" class="btn_check" @click="navigateTo('cart')">
+                        <sup> {{cartItemCount}} </sup> Cart
+                        <span class="fas fa-cart-plus"></span> &nbsp;
+                    </button>
+                     <button v-else class="cartButton_disabled"></button> 
                 </div>
             </header>
             <main>
+                <!--Input for Sorting by Category-->
                 <div class="sort-bar" >
                     <label>
-                        <input type="radio" v-model="SelectedCategory" value="All"/> All
+                        <input type="radio" name="a" v-model="SelectedCategory" value="All"/> All
                     </label>
                     <label>
-                        <input type="radio" v-model="SelectedCategory" value="subject" /> subject
+                        <input type="radio" name="a" v-model="SelectedCategory" value="subject" /> subject
                     </label>
                     <label>
-                        <input type="radio" v-model="SelectedCategory" value="price" /> Price
+                        <input type="radio" name="a" v-model="SelectedCategory" value="price" /> Price
                     </label>
                     <label>
                         <input type="radio" v-model="SelectedCategory" value="location" /> Location
@@ -40,62 +42,71 @@
                     <label>
                         <input type="radio" v-model="SelectedCategory" value="space" /> Space
                     </label>
-                    <button v-on:click="reverseItems" class="sort_button">
-                        Sorting
-                        <!-- <i v-if="ascending" class="fa fa-sort-up"></i>
-                        <i v-else class="fa fa-sort-down"></i> Sort -->
-                    </button>
                 </div>
-                    
-                    <!-- <select name="sortBy" id="products" >
-                        <option v-model="SelectedCategory" value="All">All</option>
-                        <option v-model="SelectedCategory" value="location">Location</option>
-                        <option v-model="SelectedCategory" value="subject">Subject</option>
-                        
-                        <option value="price">Price</option>
-                        <option value="availability">availability</option>
-                    </select> -->
-                    <!-- <button v-on:click="ascending = !ascending" class="sort_button">
-                        <i v-if="ascending" class="fa fa-sort-up"></i>
-                        <i v-else class="fa fa-sort-down"></i> Sort
-                    </button>
-                    <button v-model="SelectedCategory" value="subject">Change</button>
-                </div> -->
-                <div class="product">
-                    <div class="col" v-for="product in filteredData">
+
+                <!--Input for Ascending & Descending-->
+                <div class="ascending bar">
+                    <label>
+                        <input type="radio" required name="order" v-model="OrderBy" value="asc"/> Ascending
+                    </label>
+                    <label>
+                        <input type="radio" required name="order" v-model="OrderBy" value="dsc" /> Descending
+                    </label>
+                </div>
+
+                <!-- Start of Lesson Page-->
+                <div class="product" v-if="page === 'lesson'">
+                    <div class="col" v-for="(product, index) in filteredData">
                         <figure class="image_box">
                             <img v-bind:src="product.image">
                         </figure>
                         <div class="info" >
                             <h3>{{product.subject}}</h3>
                              <p>Location: {{product.location}}</p>
+                            
                           <p>Price: ${{product.price}}</p>
                           <p>Space: 
-                                <span v-if="product.spaces - cartCount(product.id) >= 0">
-                                    {{product.spaces - cartCount(product.id) }}
-                                </span>
-                           
+                              {{product.spaces}}
                             </p>
+                            <button class="btn_add"  v-on:click='addToCart(product, index)'  v-if="canAddToCart(product)">Add to Cart</button>
+                            <button class="btn_add_disabled" disabled='disabled' v-else>Add to cart</button>                  
+                        </div>         
+                    </div>
+                </div>
 
-                            <label>
-                                <input type='checkbox' v-model='status' /> Status
-                            </label>
-                            
-                            <button class="btn_add"   v-on:click='addToCart(product)'  v-if="canAddToCart(product)">Add to Cart</button>
-                            <button class="btn_add_disabled" disabled='disabled' v-else>Add to cart</button>
-                            
-
+                <!-- Start of Cart Page-->
+                <div class="checkout" v-if="page === 'cart'">
+                    <button class="btn_check" @click="navigateTo('lesson')">Product</button>
+                    <h1>Checkout</h1>
+                    <div class="col" v-for="(product, index) in cart">
+                        <figure class="image_box">
+                            <img v-bind:src="product.image">
+                        </figure>
+                        <div class="info" >
+                            <h3>{{product.subject}}</h3>
+                            <p>ID: {{product.id}}</p>
+                            <p>Location: {{product.location}}</p>
+                            <p>Price: ${{product.price}}</p>
+                            <p>Space: {{product.spaces}} </p>
+                            <button class="btn_add"   v-on:click='removeProduct(index)'>Remove to Cart</button>
                         </div>
-                        
-                        
+                    </div>
+
+                    <!-- Checkout Bar-->
+                    <div class="collectData" >
+                        <label>Name : 
+                            <input placeholder="Rotimi" type="text" v-model="name">
+                        </label>
+                        <label> Phone:
+                            <input placeholder="+97138493843" type="number" v-model="phone">
+                        </label>
+                        <button :disabled="isDisabled"  id="myBtn">Checkout</button>
                     </div>
                 </div>
             </main>    
             
         </div>
-        <script type="text/javascript" src="products.js"></script> 
-        <!-- <script type="text/javascript">
-             -->
+        <script type="text/javascript" src="products.js"></script>             
         </script>
     </body>
 </html>

@@ -63,94 +63,71 @@ var webstore = new Vue({
             
         ],
         cart: [],
-        showProduct: true,
         SelectedCategory: 'All',
-        ArrangeOrder: true,
-        status: false
-        
+        page: "lesson",
+        OrderBy: "",
+        name: "",
+        phone: "",
     },
 
     methods: {
-        addToCart(product) {
-            this.cart.push(product.id);
+        addToCart(product, index) {
+            this.cart.push(product);
+            this.filteredData[index].spaces--;
 
-        },
-
-        showCheckout() {
-            this.showProduct = this.showProduct ? false : true;
         },
 
         canAddToCart(product) {
             return product.spaces > this.cartCount(product.id);
         },
 
+        navigateTo(page) {
+           this.page = page;
+        },
+
+        removeProduct(index) {
+            this.cart.splice(index, 1);
+        },
+
+        SubmitAlert() {
+            alert("Order Submitted")
+        },
 
         cartCount(id) {
             let count = 0;
             for (let i = 0; i < this.cart.length; i++) {
                 if(this.cart[i] === id){
                     count++;
-                }
-                
+                } 
             }         
             return count; 
         },
-
-        reverseItems() {
-            return this.products.slice().reverse();
-        }
-
-        //  changeSort() {
-        //     let subjectsArray = this.products.slice(0);
-        //     function compare(a, b) {
-        //         if (a.price > b.price) 
-        //             return 1;
-        //         if (a.price < b.price)
-        //         return -1;
-        //         return 0;
-               
-        //     }
-        //     return subjectsArray.sort(compare);
-        // }
-        
     },
 
     computed: {
         cartItemCount: function() {
-            return this.cart.length || '';
+            return this.cart.length;
         },
 
         isDisabled: function() {
-            return !this.status;
-
-        },
-
-        sortedProducts() {
-            let productsArray = this.products.slice(0);
-            function compare(a, b) {
-                if (a.price > b.price) 
-                    return 1;
-                if (a.price < b.price)
-                return -1;
-                return 0;     
-            }
-            return productsArray.sort(compare);
+            return !this.name || !this.phone;
         },
 
         filteredData: function() {
-            let vm = this;
-            let category = vm.SelectedCategory;
+           // let vm = this;
+            let category = this.SelectedCategory;
+            const orderBy = this.OrderBy;
             if(category === "All") {
-                return vm.products;
+                return this.products;
             } else {
                 let subjectsArray = this.products.slice(0);
                 if(category === "subject") {
-                    console.log('getting here!')
+                    
                     function compare(a, b) {
                         if (a.subject > b.subject)
-                            return 1;
+                            return orderBy == 'asc' ? 1 : (orderBy == 'dsc' ? -1 : 1)
                         if (a.subject < b.subject)
-                            return -1;
+                            return orderBy == 'dsc' ? -1 : (orderBy == 'dsc' ? 1 : -1)
                         return 0;
                     }
                     return subjectsArray.sort(compare);
@@ -179,38 +156,20 @@ var webstore = new Vue({
                         } else {
                             let spaceArray = this.products.slice(0);
                             if(category === "space") {
+                                console.log("testing")
                                 function compare(sa, sb) {
-                                    if (sa.spaces > sb.spaces) {
+                                    if (sa.spaces > sb.spaces) 
                                         return 1;
-                                    }
-                                    if (sa.spaces < sb.spaces) {
+                                    if (sa.spaces < sb.spaces) 
                                         return -1
-                                    }
                                     return 0;
                                 }
                                 return spaceArray.sort(compare)
-                            }
-                            
+                            } 
                         } 
                     }
-                }
-                
+                }  
              }       
-         },
-
-         filteredPeoples: function() {
-            var vm = this;
-             var category = vm.SelectedCategory;
-             if(category === "All") {
-                 return vm.products;
-            } else {
-                return vm.products.filter(function(type) {
-                     return type.category === category;
-                 });
-             }       
-         },
-
-        
-        
+         },   
     }   
 });
