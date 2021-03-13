@@ -5,60 +5,84 @@ var webstore = new Vue({
         show: true,
         products: [
             {
-                id: 001,
+                id: 01,
                 subject: "Maths",
                 location: "London",
                 price: 100,
                 spaces: 5,
-                image: "maths.jpg"
+                image: "images/maths.jpg"
             },
             {
-                id: 002,
+                id: 02,
                 subject: "English",
                 location: "Manchester",
                 price: 80,
                 spaces: 5,
-                image: "maths.jpg"
+                image: "images/english.jpg"
             },
             {
-                id: 003,
+                id: 03,
                 subject: "Physics",
-                location: "Egbeda",
+                location: "Dubai",
+                price: 90,
+                spaces: 5,
+                image: "images/physics.jpg"
+            },
+            {
+                id: 04,
+                subject: "Chemistry",
+                location: "Lagos",
+                price: 120,
+                spaces: 5,
+                image: "images/chemistry.jpg"
+            },
+            {
+                id: 05,
+                subject: "History",
+                location: "Berlin",
                 price: 40,
                 spaces: 5,
-                image: "maths.jpg"
+                image: "images/history.jpg"
             },
             {
-                id: 004,
-                subject: "Social",
-                location: "Sunderland",
-                price: 40,
+                id: 06,
+                subject: "Geography",
+                location: "California",
+                price: 30,
                 spaces: 5,
-                image: "maths.jpg"
+                image: "images/geography.jpg"
             },
             {
-                id: 005,
-                subject: "Civic",
-                location: "Tunderland",
-                price: 40,
+                id: 07,
+                subject: "Music",
+                location: "Birmingham",
+                price: 180,
                 spaces: 5,
-                image: "maths.jpg"
+                image: "images/music.jpg"
             },
             {
-                id: 006,
-                subject: "Gov",
-                location: "London",
-                price: 100,
-                spaces: 5,
-                image: "maths.jpg"
-            },
-            {
-                id: 007,
-                subject: "Literature",
-                location: "Manchester",
+                id: 08,
+                subject: "Art",
+                location: "Nairobi",
                 price: 80,
                 spaces: 5,
-                image: "maths.jpg"
+                image: "images/art.jpg"
+            },
+            {
+                id: 09,
+                subject: "Physical Education",
+                location: "Oxford",
+                price: 40,
+                spaces: 5,
+                image: "images/physical.jpg"
+            },
+            {
+                id: 10,
+                subject: "Design & Technology",
+                location: "Accra",
+                price: 80,
+                spaces: 5,
+                image: "images/design.jpg"
             },
             
         ],
@@ -127,7 +151,7 @@ var webstore = new Vue({
                         if (a.subject > b.subject)
                             return orderBy == 'asc' ? 1 : (orderBy == 'dsc' ? -1 : 1)
                         if (a.subject < b.subject)
-                            return orderBy == 'dsc' ? -1 : (orderBy == 'dsc' ? 1 : -1)
+                            return orderBy == 'asc' ? -1 : (orderBy == 'dsc' ? 1 : -1)
                         return 0;
                     }
                     return subjectsArray.sort(compare);
@@ -136,9 +160,9 @@ var webstore = new Vue({
                     if(category === "price") {
                         function compare(pa, pb) {
                             if (pa.price > pb.price)
-                                return 1;
+                                return orderBy == 'asc' ? 1 : (orderBy == 'dsc' ? -1 : 1)
                             if (pa.price < pb.price)
-                                return -1;
+                                return orderBy == 'asc' ? -1 : (orderBy == 'dsc' ? 1 : -1)
                             return 0;
                         }
                         return priceArray.sort(compare);
@@ -147,9 +171,9 @@ var webstore = new Vue({
                         if(category === "location") {
                             function compare(la,lb) {
                                 if (la.location > lb.location)
-                                    return 1;
+                                    return orderBy == 'asc' ? 1 : (orderBy == 'dsc' ? -1 : 1)
                                 if (la.location < lb.location)
-                                    return -1;
+                                    return orderBy == 'asc' ? -1 : (orderBy == 'dsc' ? 1 : -1)
                                 return 0;
                             }
                             return locationArray.sort(compare);
@@ -159,9 +183,9 @@ var webstore = new Vue({
                                 console.log("testing")
                                 function compare(sa, sb) {
                                     if (sa.spaces > sb.spaces) 
-                                        return 1;
+                                        return orderBy == 'asc' ? 1 : (orderBy == 'dsc' ? -1 : 1)
                                     if (sa.spaces < sb.spaces) 
-                                        return -1
+                                        return orderBy == 'asc' ? -1 : (orderBy == 'dsc' ? 1 : -1)
                                     return 0;
                                 }
                                 return spaceArray.sort(compare)

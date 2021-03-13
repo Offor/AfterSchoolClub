@@ -25,58 +25,73 @@
                 </div>
             </header>
             <main>
-                <!--Input for Sorting by Category-->
-                <div class="sort-bar" >
-                    <label>
-                        <input type="radio" name="a" v-model="SelectedCategory" value="All"/> All
-                    </label>
-                    <label>
-                        <input type="radio" name="a" v-model="SelectedCategory" value="subject" /> subject
-                    </label>
-                    <label>
-                        <input type="radio" name="a" v-model="SelectedCategory" value="price" /> Price
-                    </label>
-                    <label>
-                        <input type="radio" v-model="SelectedCategory" value="location" /> Location
-                    </label>
-                    <label>
-                        <input type="radio" v-model="SelectedCategory" value="space" /> Space
-                    </label>
-                </div>
-
-                <!--Input for Ascending & Descending-->
-                <div class="ascending bar">
-                    <label>
-                        <input type="radio" required name="order" v-model="OrderBy" value="asc"/> Ascending
-                    </label>
-                    <label>
-                        <input type="radio" required name="order" v-model="OrderBy" value="dsc" /> Descending
-                    </label>
-                </div>
+                
+                
+                
 
                 <!-- Start of Lesson Page-->
                 <div class="product" v-if="page === 'lesson'">
-                    <div class="col" v-for="(product, index) in filteredData">
-                        <figure class="image_box">
-                            <img v-bind:src="product.image">
-                        </figure>
-                        <div class="info" >
-                            <h3>{{product.subject}}</h3>
-                             <p>Location: {{product.location}}</p>
-                            
-                          <p>Price: ${{product.price}}</p>
-                          <p>Space: 
-                              {{product.spaces}}
-                            </p>
-                            <button class="btn_add"  v-on:click='addToCart(product, index)'  v-if="canAddToCart(product)">Add to Cart</button>
-                            <button class="btn_add_disabled" disabled='disabled' v-else>Add to cart</button>                  
-                        </div>         
+                    <div class="aside">
+                        <!--Input for Sorting by Category-->
+                        <div class="sort-bar" >
+                            <h2 style="padding: 0 0 0 10px;">Sort By:</h2>
+                            <label class="container">
+                                <input type="radio" name="a" v-model="SelectedCategory" value="All"/> All
+                                <span class="checkmark"></span>
+                            </label> <br>
+                            <label class="container">
+                                <input type="radio" name="a" v-model="SelectedCategory" value="subject" /> subject
+                                <span class="checkmark"></span>
+                            </label><br>
+                            <label class="container">
+                                <input type="radio" name="a" v-model="SelectedCategory" value="price" /> Price
+                                <span class="checkmark"></span>
+                            </label><br>
+                            <label class="container">
+                                <input type="radio" v-model="SelectedCategory" value="location" /> Location
+                                <span class="checkmark"></span>
+                            </label><br>
+                            <label class="container">
+                                <input type="radio" v-model="SelectedCategory" value="space" /> Space
+                                <span class="checkmark"></span>
+                            </label> 
+                        </div>
+                        <hr>
+                        <!--Input for Ascending & Descending-->
+                        <div class="ascending_bar">
+                            <label class="container">
+                                <input type="radio" required name="order" v-model="OrderBy" value="asc"/> Ascending
+                                <span class="checkmark"></span>
+                            </label><br>
+                            <label class="container">
+                                <input type="radio" required name="order" v-model="OrderBy" value="dsc" /> Descending
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
                     </div>
+                    <div class="mainbody">
+                        <div class="col" v-for="(product, index) in filteredData">
+                            <figure class="image_box">
+                                <img v-bind:src="product.image">
+                            </figure>
+                            <div class="info" >
+                                <h3>{{product.subject}}</h3>
+                                 <p>Location: {{product.location}}</p>
+                              <p>Price: ${{product.price}}</p>
+                              <p>Space: 
+                                  {{product.spaces}}
+                                </p>
+                                <button class="btn_add"  v-on:click='addToCart(product, index)'  v-if="canAddToCart(product)">Add to Cart</button>
+                                <button class="btn_add_disabled" disabled='disabled' v-else>Add to cart</button>                  
+                            </div>         
+                        </div>
+                    </div>
+                    
                 </div>
 
                 <!-- Start of Cart Page-->
                 <div class="checkout" v-if="page === 'cart'">
-                    <button class="btn_check" @click="navigateTo('lesson')">Product</button>
+                    <button class="btn_check back_btn" id="back_btn" @click="navigateTo('lesson')">Product</button>
                     <h1>Checkout</h1>
                     <div class="col" v-for="(product, index) in cart">
                         <figure class="image_box">
@@ -94,13 +109,14 @@
 
                     <!-- Checkout Bar-->
                     <div class="collectData" >
+                        <br>
                         <label>Name : 
                             <input placeholder="Rotimi" type="text" v-model="name">
                         </label>
                         <label> Phone:
                             <input placeholder="+97138493843" type="number" v-model="phone">
                         </label>
-                        <button :disabled="isDisabled"  id="myBtn">Checkout</button>
+                        <button :disabled="isDisabled" class="checkout_btn" v-on:click="SubmitAlert">Checkout</button>
                     </div>
                 </div>
             </main>    
